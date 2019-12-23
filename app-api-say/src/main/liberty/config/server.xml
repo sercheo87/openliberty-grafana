@@ -1,0 +1,19 @@
+<server description="Sample Liberty server">
+    <featureManager>
+        <feature>microProfile-3.2</feature>
+        <feature>usr:opentracingZipkin-0.31</feature>
+        <feature>monitor-1.0</feature>
+    </featureManager>
+
+    <opentracingZipkin host="zipkin.srv.com" port="9411"/>
+    <mpMetrics authentication="false"/>
+
+    <variable name="default.http.port" defaultValue="9080"/>
+    <variable name="default.https.port" defaultValue="9443"/>
+    <variable name="io_openliberty_guides_system_inMaintenance" value="false"/>
+
+    <webApplication location="app-api-say.war" contextRoot="/"/>
+
+    <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+
+</server>

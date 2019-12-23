@@ -1,0 +1,36 @@
+POST http://localhost:9080/apiSay/say/sergio
+Accept: application/json
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+%}
+
+###
+GET http://localhost:9080/apiSay/say
+Accept: application/json
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+%}
+
+###
+GET http://localhost:9080/metrics/
+Accept: application/json
+
+> {%
+
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+%}
+
+###

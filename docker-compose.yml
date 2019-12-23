@@ -1,0 +1,77 @@
+version: "3.7"
+services:
+
+  app-api-say:
+    container_name: app-api-say
+    image: app-api-say
+    hostname: app.api.say.com
+    build:
+      context: ./app-api-say
+      dockerfile: Dockerfile
+    ports:
+      - 9080:9080
+    networks:
+      api.network:
+        aliases:
+          - app.api.say.com
+    restart: always
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    hostname: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      api.network:
+        aliases:
+          - zipkin.srv.com
+    restart: always
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    hostname: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./monitor-files/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      api.network:
+        aliases:
+          - prometheus.srv.com
+    restart: always
+
+  prometheus-node:
+    container_name: prometheus-node
+    image: prom/node-exporter
+    hostname: prometheus-node
+    ports:
+      - 9100:9100
+    networks:
+      api.network:
+        aliases:
+          - prometheus.node.com
+    restart: always
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    hostname: grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: P@ssw0rd
+    ports:
+      - 3000:3000
+    volumes:
+      - ./monitor-files/grafana/provisioning/datasources/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./monitor-files/grafana/provisioning/dashboards/liberty-metrics_rev1.json:/etc/grafana/provisioning/dashboards/liberty-metrics_rev1.json
+      - ./monitor-files/grafana/provisioning/dashboards/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+    networks:
+      api.network:
+        aliases:
+            - grafana.com
+    restart: always
+
+
+networks:
+  api.network:
