@@ -1,4 +1,4 @@
-name: app-api-say CI
+name: app-api-say-ci
 
 on: [push]
 
