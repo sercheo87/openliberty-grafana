@@ -1,5 +1,7 @@
 # openliberty-grafana
 
+![](https://github.com/sercheo87/openliberty-grafana/workflows/app-api-say-ci/badge.svg)
+
 This example show dashboard created for Grafana specialized for monitoring:
 
 * Servlet
